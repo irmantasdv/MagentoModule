@@ -1,0 +1,13 @@
+{
+    "irm_blog_post": {
+        "column": {
+            "id": true,
+            "title": true,
+            "content": true,
+            "creation_time": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}
