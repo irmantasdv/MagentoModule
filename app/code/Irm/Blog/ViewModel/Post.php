@@ -1,16 +1,42 @@
 <?php declare(strict_types=1);
-namespace Irm\Blog\VieModel;
+namespace Irm\Blog\ViewModel;
 
-use Magento\Framework\DataObject;
+use Irm\Blog\Model\PostFactory;
+use Irm\Blog\Api\Data\PostInterface;
+use Irm\Blog\Api\PostRepositoryInterface;
+use Irm\Blog\Model\ResourceModel\Post\Collection;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
+
 class Post implements ArgumentInterface
 {
+    public function __construct(
+        private Collection $collection,
+        private PostRepositoryInterface $postRepository,
+        private RequestInterface $request,
+        private PostFactory $postFactory,
+    )
+    {
+    }
+
     public function getList(): array
     {
-        return([
-           new DataObject(['id' => 1,'title' => 'First title 1']),
-        new DataObject(['id' => 2,'title' => 'Second title 2']),
-            new DataObject(['id' => 3,'title' => 'Third title 3']),
-        ]);
+        return $this->collection->getItems();
+    }
+    public function count(): int
+    {
+        return $this->collection->count();
+    }
+
+    public function getDetails(): PostInterface
+    {
+        $id = (int) $this->request->getParam('id');
+        return $this->postRepository->getById($id);
+    }
+    public function testCreatePost(){
+        $post = $this->postFactory->create();
+        $post->setTitle('mi title');
+        $post->setContent('mi content');
+        $this->postRepository->save($post);
     }
 }

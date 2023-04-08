@@ -1,19 +1,25 @@
 <?php
 /** @var Magento\Framework\View\Element\Template $block*/
-/** @var Irm\Blog\ViewModel\Post $postVm */
+/** @var Magento\Framework\Escaper $escaper */
+/** @var Irm\Blog\ViewModel\Post $posts */
 
-$postVm = $block->getData('post_vm');
+$posts = $block->getData('post_vm');
+$posts->testCreatePost();
 ?>
 <div class="blog-post-list">
     <h1><?= __('Blog post') ?></h1>
     <ul>
-    <?php foreach ($postVm->getList() as $posts): ?>
+        <li><a href="<?= $block->getUrl('blog/post/detail', ['id' => 1]) ?>">Post 1</a></li>
+        <li><a href="<?= $block->getUrl('blog/post/detail', ['id' => 2]) ?>">Post 2</a></li>
+        <li><a href="<?= $block->getUrl('blog/post/detail', ['id' => 3]) ?>">Post 3</a></li>
+        <?php foreach ($posts->getList() as $post): ?>
         <li>
-            <a href="<?= $block->getUrl('blog/post/detail',['id' => $posts->getData('id')]) ?>">
-                <?php $posts->getData('title') ?>
+            <a href="<?= $block->getUrl('blog/post/detail',['id' => $post->getData('id')]) ?>">
+                <?= $escaper->escapeHtml($post->getData('title')) ?>
             </a>
+
         </li>
         <?php endforeach ?>
     </ul>
-    <p><?= __('Post count: %1',3)?></p>
+    <p><?= __('Post count: %1',$posts->count())?></p>
 </div>

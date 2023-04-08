@@ -12,7 +12,7 @@ interface PostInterface
     const ID = 'id';
     const TITLE = 'title';
     const CONTENT = 'content';
-    const CREATED_AT = 'created_at';
+    const CREATED_AT = 'creation_time';
 
     /**
      * @return int

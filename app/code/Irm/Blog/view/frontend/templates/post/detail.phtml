@@ -1,5 +1,12 @@
+<?php
+/**@var Irm\Blog\ViewModel\Post $posts */
+/** @var Magento\Framework\Escaper $escaper */
+/**@var Magento\Framework\View\Element\Template $block*/
+$posts = $block->getData('post_vm');
+$post = $posts->getDetails();
+?>
 <div class="blog-post-detail">
-    <h1><?= __('Title') ?></h1>
-    <p><em><?= __('Created at: %1','1999-01-01') ?></em></p>
-    <p><?=__('This is some content') ?></p>
+    <h1><?= $post->getTitle() ?></h1>
+    <p><em><?= __('Created at %1',$escaper->escapeHtml($post->getCreatedAt())) ?></em></p>
+    <p><?= $escaper->escapeHtml($post->getContent(), ['em','p','strong']) ?></p>
 </div>
